@@ -1,0 +1,24 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+{% block body %}
+
+<div class="container mt-5 mb-5 text-center ">
+    <div class="row mx-auto">
+        <div class="col-md-6">
+            <div class="card border-0">
+                <div class="card-body text-center">
+                    <h2 class="mb-4">Welcome to BetterAuctions</h2>
+                    <p class="lead mb-4">Join our vibrant community of bidders and sellers! Whether you're looking for rare collectibles, unique items, or simply seeking the thrill of bidding, our platform offers it all. With secure transactions, user-friendly interface, and a wide range of categories, your next treasure awaits. Sign up now to start exploring!</p>
+                    <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Sign Up Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <img src="{% static 'auctions/auction_image.jpeg' %}" class="img-fluid rounded" alt="Auction Image">
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
