@@ -1,0 +1,67 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Collapsible sidebar -->
+        {% if user.is_authenticated %}
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light fixed-top" id="sidebar">
+            <div class="sidebar-sticky">
+                <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    Categories
+                    <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new tag">
+                        <span data-feather="plus-circle"></span>
+                    </a>
+                </h5>
+                
+                    <ul class="nav flex-column">
+                        <form  method="post" id="tag-form">
+                            {% csrf_token %}
+                        {% for tag in categories %}
+                        <li class="nav-item">
+                            <div class="form-check">
+                                <input class="form-check-input tag-checkbox" type="checkbox" name="tags" value="{{ tag.id }}" id="tag-{{ tag.id }}" {% if tag.id|stringformat:"s" in selected_categories %}checked{% endif %} onchange="this.form.submit()">
+                                <label class="form-check-label" for="tag-{{ tag.id }}">
+                                    {{ tag.tag }}
+                                </label>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </form>
+                    </ul>
+               
+                
+            </div>
+        </nav>
+        {% endif %}
+
+        <!-- Main content area -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 mt-5">
+            <h2 class="text-center mb-4">Active Listings</h2>
+            <div class="row">
+                {% for listing in listings %}
+                <div class="col-md-4 d-flex align-items-stretch">
+                    <div class="card mb-4 shadow-sm w-100">
+                        <img src="{{ listing.listing_pic_url }}" class="card-img-top" alt="{{ listing.title }}" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-truncate" title="{{ listing.title }}">{{ listing.title }}</h5>
+                            <p class="card-text text-truncate" title="{{ listing.description }}">{{ listing.description }}</p>
+                            <h6 class="card-text">Current Bid: {{ ' R' }} {{ listing.current_highest_bid }}</h6>
+                            <div class="mt-auto d-flex justify-content-between align-items-center">
+                                <small class="text-muted">{{ listing.timestamp|date:"F d, Y" }}</small>
+                                <a href="{% url 'bid' listing.id %}" class="btn btn-primary btn-lg">Bid</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+
+</script>
+{% endblock %}
+

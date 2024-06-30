@@ -1,0 +1,47 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4">My Watchlist</h1>
+    {% if watchlist_items %}
+        <div class="list-group">
+           {% for watchlist_item in watchlist_items %}
+            
+    <div class="list-group-item">
+
+        <div class="media">
+            <img src="{{ watchlist_item.listing.listing_pic_url }}" class="mr-3 img-thumbnail" alt="Item Image" style="width: 100px; height: 100px; object-fit: cover;">
+            <div class="media-body">
+                <h5 class="mt-0">{{ watchlist_item.listing.title }}</h5>
+                <p>Current Bid: R {{ watchlist_item.listing.current_highest_bid }}</p>
+                                
+                {% if watchlist_item.is_winning and watchlist_item.bid_boolen and watchlist_item.is_active %}
+                <div class="alert alert-success" role="alert">
+                    Congratulations! You are winning this item.
+                </div>
+            {% elif watchlist_item.bid_boolen and watchlist_item.is_active %}
+                <div class="alert alert-warning" role="alert">
+                    You have been outbid on this item.
+                </div>
+            {% elif not watchlist_item.is_active and watchlist_item.is_winning and watchlist_item.bid_boolen %}
+                <div class="alert alert-info" role="alert">
+                    Congratulations! You have won this item.
+                </div>
+            {% elif not watchlist_item.is_active and not watchlist_item.is_winning and watchlist_item.bid_boolen %}
+                <div class="alert alert-info" role="alert">
+                    Unfortunately, you did not win this item.
+                </div>
+            {% endif %}
+                
+                <p class="mb-0"><small class="text-muted">{{ watchlist_item.listing.description|truncatewords:20 }}</small></p>
+            </div>
+            <a href="{% url 'bid' watchlist_item.listing.id %}" class="btn btn-primary btn-lg">View</a>
+        </div>
+    </div>
+{% endfor %}
+        </div>
+    {% else %}
+        <p>You have no items in your watchlist.</p>
+    {% endif %}
+</div>
+{% endblock %}

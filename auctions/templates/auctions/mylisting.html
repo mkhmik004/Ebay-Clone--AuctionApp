@@ -1,0 +1,31 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="text-center">My Listings</h2>
+    <div class="list-group">
+        {% for listing in listings %}
+        <div class="list-group-item">
+            <div class="media">
+                <img src="{{ listing.listing_pic_url }}" class="mr-3 img-thumbnail" alt="Item Image" style="width: 100px; height: 100px; object-fit: cover;">
+                <div class="media-body">
+                    <h5 class="mt-0">{{ listing.title }}</h5>
+                    <p>Current Bid: {{ ' R' }} {{ listing.current_highest_bid }}</p>
+                    <p class="mb-0"><small class="text-muted">{{ listing.description|truncatewords:20 }}</small></p>
+                    {% if listing.is_active%}
+                    <div class="alert alert-success" role="alert">
+                        This Item is still on auction
+                    </div>
+                    {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        This Item has been sold
+                    </div>
+                    {% endif %}
+                </div>
+                <a href="{% url 'bid' listing.id %}" class="btn btn-primary btn-lg">view</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+{% endblock %}

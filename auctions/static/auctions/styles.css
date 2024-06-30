@@ -1,0 +1,11 @@
+body {
+    padding: 100px;
+    padding-top: 80px;
+   
+
+}
+#sidebar {
+    z-index: 1000; /* Ensure sidebar appears above other content */
+    margin-top: 100px
+}
+
